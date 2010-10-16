@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Simplebox 2.0 | Demonstration</title>
+
+ 	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="simplebox/simplebox.css" media="screen" />
+	<script type="text/javascript" src="simplebox/simplebox_util.js"></script>
+	<script type="text/javascript" src="simplebox/simplebox.js"></script>
+	<script type="text/javascript">
+		Box.contentLoad(function() {
+			simplebox.init();
+				
+			Box.addEvent(Box.$('example1'),'click',function(e){
+				e.preventDefault();
+				var transIn=Box.$('op1').value,titlePo=Box.$('op2').value;
+				simplebox.start(this,{
+					'transitionIn':transIn,
+					'titlePosition':titlePo
+					},true);
+				});	
+
+		
+			simplebox.start("a[rel=simplebox_group]",{
+				
+				});
+
+			simplebox.start('#various1');
+			simplebox.start('#various2',{padding:0});
+
+			simplebox.start('#various3',{
+					padding:0
+					});
+			simplebox.start('#various4',{
+				padding:0
+				});
+		});
+	</script>
+</head>
+<body>
+<div id="content">
+	<h1>Simplebox <em>v2.0</em></h1>
+
+	<p>This is a demonstration. <a href="http://www.devilalbum.com/2010/10/simplebox-for-wordpress-2-0/">Home page</a></p>
+
+	<hr />
+
+	<p>
+	Change the options below, and click the image siding right to watch it in action  
+		<a id="example1" class="alignright" href="./example/1_b.jpg"><img alt="example1" src="./example/1_s.jpg" /></a>
+
+
+	</p>
+	<dl>
+		<dt>animation</dt>
+		<dd>
+		<select id="op1">
+			<option value="fade" selected="selected">fade</option>
+			<option value="elastic">elastic</option>
+			<option value="none">none</option>
+		</select>
+		</dd>
+	</dl>
+	<dl>
+		<dt>titlePostion</dt>
+		<dd>
+		<select id="op2">
+			<option value="inside" selected="selected">inside</option>
+			<option value="over">over</option>
+		</select>
+		</dd>
+	</dl>
+	<p>
+
+		Gallery(Mouse wheel navigation is supported)<br />
+
+		<a id="example2" rel="simplebox_group" href="./example/2_b.jpg" title="Lorem ipsum dolor sit amet"><img alt="example2" src="./example/2_s.jpg" /></a>
+
+		<a id="example3" rel="simplebox_group" href="./example/3_b.jpg" title="Cras neque mi, semper at interdum id, dapibus in leo. Suspendisse nunc leo, eleifend sit amet iaculis et, cursus sed turpis."><img alt="example3" src="./example/3_s.jpg" /></a>
+
+		<a id="example4" rel="simplebox_group" href="./example/4_b.jpg" title="Sed vel sapien vel sem tempus placerat eu ut tort diam eu consectetur."><img alt="example4" src="./example/4_s.jpg" /></a>
+
+	</p>
+
+	<h3>Html</h3>	
+	<p>
+	<a id="various1" href="#" data-content="<div>Change the options below, and clic</div>">html</a>
+		<pre>&lt;a href="#" rel="simplebox" data-content="&lt;div&gt;Change the options below, and clic&lt;/div&gt;"&gt;kitty&lt;/a&gt;</pre>
+	</p>
+
+	<h3>Html5 video</h3>
+	<p>
+		<a id="various2" href="#" data-video="http://video-js.zencoder.com/oceans-clip.mp4;http://video-js.zencoder.com/oceans-clip.ogg" data-width="640" data-height="264" data-h5video-poster="http://video-js.zencoder.com/oceans-clip.png">Html5 video</a>
+	
+		<pre>&lt;a id="various2" href="#" data-video="http://video-js.zencoder.com/oceans-clip.mp4;http://video-js.zencoder.com/oceans-clip.ogg" data-width="640" data-height="264" data-h5video-poster="http://video-js.zencoder.com/oceans-clip.png" &gt;Html5 video&lt;/a&gt;</pre>
+		<br />
+	</p>
+	
+	<ul>
+		<li>data-video(required):one or more urls,sperated by comma</li>
+		<li>data-width,data-height(required):pixel number representing the video's width and height</li>
+		<li>data-h5video-autoplay,data-h5video-poster,data-h5video-preload(optical):the coresponding attribute (poster,preload,autoplay) of the video tag 
+		</li>	
+	</ul>
+
+	<p>
+	<a id="various3" href="#" data-video="http://video-js.zencoder.com/oceans-clip.mp4" data-width="640" data-height="264" data-h5video-poster="http://video-js.zencoder.com/oceans-clip.png">Flash fallback</a>
+	<br />
+	If the &lt;video&gt; tag can not play the provided videos,it will fallback to flash. So include a video url which flash can play(for example, mp4 or flv file) in the data-video attribute.
+	<br /><br />
+	Try the link above. If you use firefox or opera which not be capble of handling h.264 codec, flash fallback will be used.
+	</p>
+
+	<h3>Swf</h3>
+	<p>
+		<a id="various4" href="http://www.adobe.com/jp/events/cs3_web_edition_tour/swfs/perform.swf">Swf</a>
+		<pre>&lt;a id="various3" href="http://www.adobe.com/jp/events/cs3_web_edition_tour/swfs/perform.swf"&gt;Swf&lt;/a&gt;</pre>
+	</p>
+
+</div>
+
+</body>
+</html>

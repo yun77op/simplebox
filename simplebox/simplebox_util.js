@@ -192,15 +192,19 @@ K.fadeIn=curry(fade,1);
 
 function fade(io,el,time,callback){
 	var args=Array.prototype.slice.call(arguments,0),
-	    from,t;
+	    from,t,cb;
 	if(args.length==3 && typeof args[2]=='function' ){
 		callback=args[2];
 		time=null;
 	}
-	
+	cb=function(){
+		callback && callback()
+	};	
 	if(io){
-		if(K.getComputedStyleValue(el,'display')!='none')
+		if(K.getComputedStyleValue(el,'display')!='none'){
+			cb();
 			return;
+		}
 		el.style.opacity=0;
 		el.style.display=el.getAttribute('data-display') || 'block';
 
@@ -208,29 +212,26 @@ function fade(io,el,time,callback){
 			to:1,
 			time:time,
 			callback:function(){
-				callback && callback()
+				callback();
 				}
 			});
 	
 	
 	
 	} else {
-		if((t=K.getComputedStyleValue(el,'display'))=='none')
+		if((t=K.getComputedStyleValue(el,'display'))=='none'){
+			cb();
 			return;
+		}
 		el.setAttribute('data-display',t);
 		new Animate(el,'opacity',{
 			to:0,
 			time:time,
 			callback:function(){
 				el.style.display='none';
-				callback && callback()
+				cb()
 				}
 			});
-	
-	
-
-	
-	
 	
 	}
 

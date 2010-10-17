@@ -1,5 +1,6 @@
 var simplebox=(function(){
-var overlay,tmp,outer,inner,loading,nav_close,nav_left,nav_right,busy=false,
+var overlay,tmp,outer,inner,loading,nav_close,nav_left,nav_right,title=null,
+	busy=false,
 	selectedArray,selectedIndex,opts,selectedOpts,
 	loadingTimer, loadingFrame = 1,
 	shadow=20, imgLoader=new Image,fx={style:{}},
@@ -89,9 +90,10 @@ function close(){
 
 	inner.style.overflow='hidden';
 
-	if(Box.$('simple-title'))
-		Box.$('simple-title').parentNode.removeChild(Box.$('simple-title'));
-
+	if(title){
+		title.parentNode.removeChild(title);
+		title=null;
+	}
 	if(selectedOpts.transitionOut=='fade'){
 		Box.fadeOut(outer,_clean);
 	
@@ -234,7 +236,10 @@ function start() {
 		}
 	}
 
-	if( !href || !type ) return;
+	if( !href || !type ){
+		busy=false;
+		return;
+	}
 	selectedOpts.href=href;
 	selectedOpts.type=type;
 
@@ -294,12 +299,12 @@ function start() {
 		case 'html':
 				tmp.innerHTML=selectedOpts.href;
 				if(selectedOpts.autoDimension){
-					Box.extend(tmp.style,{visibility:'hidden',display:'block',position:'absolute'});
+					Box.extend(tmp.style,{display:'block',position:'absolute'});
 
 					selectedOpts.width=parseInt(Box.getComputedStyleValue(tmp,'width'));
 					selectedOpts.height=parseInt(Box.getComputedStyleValue(tmp,'height'));
 
-					Box.extend(tmp.style,{visibility:'visible',display:'hidden',position:'auto'});
+					Box.extend(tmp.style,{display:'none',position:'auto'});
 				}
 				show();
 	}
@@ -427,8 +432,8 @@ function finish(){
 var scroll=selectedOpts.scrolling;
 	scroll=scroll=='auto' ? (selectedOpts.type=='html' ? 'auto' : 'hidden' ) : (scroll=='yes'?'auto':'visible' );
 	inner.style.overflow=scroll;
-	if(Box.$('simple-title'))
-		Box.$('simple-title').style.display='block';
+	if(title)
+		title.style.display='block';
 	if (selectedOpts.showCloseButton)
 		 nav_close.style.display='block';
 	if (selectedOpts.hideOnContentClick){
@@ -550,6 +555,7 @@ function getZoomFrom(){
 
 function getZoomTo(){
 	var view=get_viewport(),to={},
+	    margin=selectedOpts.margin,
 	resize = selectedOpts.autoScale,
 	double_padding=selectedOpts.padding*2,
 	horizontal_space= (selectedOpts.margin+shadow) * 2, vertical_space= (selectedOpts.margin+shadow) * 2 ;
@@ -571,7 +577,7 @@ function getZoomTo(){
 	}
 	
 	if (resize && (to.width > (view[0] - horizontal_space) || to.height > (view[1] - vertical_space))) {
-			
+		if(selectedOpts.type=='image'){	
 		horizontal_space	+= double_padding;
 		vertical_space		+= double_padding;
 
@@ -580,8 +586,13 @@ function getZoomTo(){
 		to.width	= Math.round(ratio * (to.width	- double_padding)) + double_padding;
 		to.height	= Math.round(ratio * (to.height	- double_padding)) + double_padding;
 
+		} else {
+			to.width	= Math.min(to.width,	(view[0] - horizontal_space));
+					to.height	= Math.min(to.height,	(view[1] - vertical_space));
+		
 		
 		}
+	}
 
 	to.left=view[2]+(view[0]-to.width)*0.5;
 	to.top=view[3]+(view[1]-to.height)*0.5;
@@ -595,35 +606,36 @@ function getZoomTo(){
 }
 
 function processTitle(){
-	var title = selectedOpts.title,simple_title,w,p=selectedOpts.padding;
+	var t = selectedOpts.title,w,p=selectedOpts.padding;
 
-	if(Box.$('simple-title'))
-		Box.$('simple-title').parentNode.removeChild(Box.$('simple-title'));
-
+	if(title){
+		title.parentNode.removeChild(title);
+		title=null;
+	}
 	titleh=0;
 	if(!selectedOpts.titleShow) return;
 
-	if(!title) return;
+	if(!t) return;
 
-	title = typeof (selectedOpts.titleFormat) === 'function' ? selectedOpts.titleFormat(title, selectedArray, selectedIndex, selectedOpts) : formatTitle(title);
+	t = typeof (selectedOpts.titleFormat) === 'function' ? selectedOpts.titleFormat(t, selectedArray, selectedIndex, selectedOpts) : formatTitle(t);
 	
 	w=Math.max(final_pos.width-2*p,1);
-	simple_title=Box.createElement('div',{'id':'simple-title','innerHTML':title,'className':'simple-title-'+selectedOpts.titlePosition});
-	Box.extend(simple_title.style,{width:w+'px',paddingLeft:p+'px',paddingRight:p+'px'});
+	title=Box.createElement('div',{'id':'simple-title','innerHTML':t,'className':'simple-title-'+selectedOpts.titlePosition});
+	Box.extend(title.style,{width:w+'px',paddingLeft:p+'px',paddingRight:p+'px'});
 
-	document.body.appendChild(simple_title);
+	document.body.appendChild(title);
 	switch (selectedOpts.titlePosition) {
 			case 'over':
-				simple_title.style.bottom=p+'px';
+				title.style.bottom=p+'px';
 				break;
 
 			default:
-				titleh=simple_title.offsetHeight - selectedOpts.padding;
+				titleh=title.offsetHeight - selectedOpts.padding;
 				final_pos.height += titleh;
 				break;
 		}
-	outer.appendChild(simple_title);
-	simple_title.style.display='none';
+	outer.appendChild(title);
+	title.style.display='none';
 
 }
 
@@ -679,7 +691,15 @@ function resizeCenter(){
 	console.log(get_viewport());
 	start_pos=getZoomFrom();
 	final_pos=getZoomTo();
-	Box.extendStyle(outer,final_pos);			
+	
+	if(title){
+		title.style.width=final_pos.width-2*selectedOpts.padding+'px';
+		if(selectedOpts.titlePosition=='inside'){
+			titleh=title.offsetHeight - selectedOpts.padding;
+			final_pos.height += titleh;
+		}
+	}
+	Box.extendStyle(outer,final_pos);	
 	Box.extend(inner.style,{
 				top	: selectedOpts.padding+'px',
 				left	: selectedOpts.padding+'px',

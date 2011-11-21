@@ -6,37 +6,6 @@
 
  	<link rel="stylesheet" href="style.css" />
 	<link rel="stylesheet" type="text/css" href="simplebox/simplebox.css" media="screen" />
-	<script type="text/javascript" src="simplebox/simplebox_util.js"></script>
-	<script type="text/javascript" src="simplebox/simplebox.js"></script>
-	<script type="text/javascript">
-		Box.contentLoad(function() {
-			simplebox.init();
-				
-			Box.addEvent(Box.$('example1'),'click',function(e){
-				e.preventDefault();
-				var transIn=Box.$('op1').value,titlePo=Box.$('op2').value;
-				simplebox.start(this,{
-					'transitionIn':transIn,
-					'titlePosition':titlePo
-					},true);
-				});	
-
-		
-			simplebox.start("a[rel=simplebox_group]",{
-				
-				});
-
-			simplebox.start('#various1');
-			simplebox.start('#various2',{padding:0});
-
-			simplebox.start('#various3',{
-					padding:0
-					});
-			simplebox.start('#various4',{
-				padding:0
-				});
-		});
-	</script>
 </head>
 <body>
 <div id="content">
@@ -119,6 +88,32 @@
 	</p>
 
 </div>
+<script type="text/javascript" src="simplebox/simplebox.js"></script>
+<script type="text/javascript">
+	simplebox.init();
+	
+	document.getElementById('example1').onclick = function(e) {
+		e.preventDefault();
+		var transIn = document.getElementById('op1').value,
+				titlePosition = document.getElementById('op2').value;
+		simplebox.start(this,{
+			'transitionIn': transIn,
+			'titlePosition': titlePosition
+			}, true);
+	};	
 
+
+	simplebox.start("a[rel=simplebox_group]", {});
+
+	simplebox.start('#various1');
+	simplebox.start('#various2', {padding: 0});
+
+	simplebox.start('#various3', {
+		padding: 0
+	});
+	simplebox.start('#various4', {
+		padding: 0
+	});
+</script>
 </body>
 </html>

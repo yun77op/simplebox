@@ -75,7 +75,7 @@
 }
 
 #simple-loading div {
-	background:url("imgs/simplebox.png") no-repeat scroll 0 0 transparent;
+	background:url("images/simplebox.png") no-repeat scroll 0 0 transparent;
 	height:480px;
 	left:0;
 	position:absolute;
@@ -89,7 +89,7 @@
 	right: -15px;
 	width: 32px;
 	height: 32px;
-	background: url('imgs/simplebox.png') -40px 0 no-repeat;
+	background: url('images/simplebox.png') -40px 0 no-repeat;
 	cursor: pointer;
 	z-index: 1103;
 	display:none; 
@@ -156,11 +156,11 @@
 }
 
 #simple-left-ico {
-	background: transparent url('imgs/simplebox.png') -40px -30px no-repeat;
+	background: transparent url('images/simplebox.png') -40px -30px no-repeat;
 }
 
 #simple-right-ico {
-	background: transparent url('imgs/simplebox.png') -40px -60px no-repeat;
+	background: transparent url('images/simplebox.png') -40px -60px no-repeat;
 }
 
 

@@ -28,7 +28,7 @@ No Option's Page yet now, so no further configuration is needed.
 
 = Demo =
 
-You can see the plugin working on this [demo page](http://www.devilalbum.com/files/simplebox/).
+You can see the plugin working on this [demo page](http://devilalbum.com/dev/simplebox/).
 
 = Browser compatibility =
 
